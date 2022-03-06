@@ -25,6 +25,13 @@ class Snake:
         block.goto(position)
         self.snake.append(block)
 
+    def reset(self):
+        for seg in self.snake:
+            seg.goto(1000, 1000)
+        self.snake.clear()
+        self.create_snakes()
+        self.head = self.snake[0]
+
     # add block to the current snake as it eats food (make the snake bigger)
     def extend_snake(self):
         self.add_block(self.snake[-1].position())

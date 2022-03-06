@@ -3,6 +3,8 @@ from snake import Snake
 from food import Food
 from scoreboard import Scoreboard
 from boundary import Boundary
+from to_continue import ToContinue
+import keyboard
 import time
 
 screen = Screen()
@@ -15,6 +17,7 @@ top_boundary = Boundary()
 moving_snake = Snake()
 food = Food()
 scores = Scoreboard()
+to_continue = ToContinue()
 
 game_is_on = True
 
@@ -39,14 +42,27 @@ while game_is_on:
     # collision with walls
     if moving_snake.head.xcor() > 290 or moving_snake.head.xcor() < -290 or moving_snake.head.ycor() < -290 or \
             moving_snake.head.ycor() > 275:
-        game_is_on = False
-        scores.game_over()
+        to_continue.ask_the_user()
+        if keyboard.read_key() == "enter":
+            to_continue.clear_text()
+            scores.reset()
+            moving_snake.reset()
+        elif keyboard.read_key() == "esc":
+            game_is_on = False
+            screen.bye()
 
     # if snake bites itself
     for segment in moving_snake.snake[1:]:
-        if moving_snake.head.distance(segment) < 10:
-            game_is_on = False
-            scores.game_over()
-
+        if segment == moving_snake.head:
+            pass
+        elif moving_snake.head.distance(segment) < 10:
+            to_continue.ask_the_user()
+            if keyboard.read_key() == "enter":
+                to_continue.clear_text()
+                scores.reset()
+                moving_snake.reset()
+            elif keyboard.read_key() == "esc":
+                game_is_on = False
+                screen.bye()
 
 screen.exitonclick()
