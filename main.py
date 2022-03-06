@@ -48,8 +48,9 @@ while game_is_on:
             scores.reset()
             moving_snake.reset()
         elif keyboard.read_key() == "esc":
+            to_continue.clear_text()
+            scores.game_over()
             game_is_on = False
-            screen.bye()
 
     # if snake bites itself
     for segment in moving_snake.snake[1:]:
@@ -62,7 +63,8 @@ while game_is_on:
                 scores.reset()
                 moving_snake.reset()
             elif keyboard.read_key() == "esc":
+                to_continue.clear_text()
+                scores.game_over()
                 game_is_on = False
-                screen.bye()
 
 screen.exitonclick()
